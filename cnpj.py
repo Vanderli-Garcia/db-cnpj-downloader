@@ -29,7 +29,7 @@ class CNPJ:
         except:
             raise Exception("Erro: arquivo data_name.json não encontrados.")
     def mes(self):
-        request_url = urlopen('https://dadosabertos.rfb.gov.br/CNPJ/dados_abertos_cnpj/')
+        request_url = urlopen('https://arquivos.receitafederal.gov.br/dados/cnpj/dados_abertos_cnpj/')
         s = request_url.read().decode("utf-8")
         m = findall(r'<a href="[0-9]+-[0-9]+', s)
         l = []
@@ -39,7 +39,7 @@ class CNPJ:
     def download(self, mes):
         if not str(mes) in self.files:
             self.files[str(mes)] = {"Socios5": 0, "Estabelecimentos1": 0, "Socios9": 0, "Municipios": 0, "Empresas3": 0, "Qualificacoes": 0, "Estabelecimentos9": 0, "Motivos": 0, "Empresas2": 0, "Cnaes": 0, "Empresas8": 0, "Estabelecimentos3": 0, "Estabelecimentos6": 0, "Naturezas": 0, "Socios8": 0, "Estabelecimentos2": 0, "Estabelecimentos4": 0, "Estabelecimentos8": 0, "Empresas0": 0, "Socios1": 0, "Empresas4": 0, "Socios3": 0, "Socios4": 0, "Empresas5": 0, "Empresas9": 0, "Socios0": 0, "Estabelecimentos7": 0, "Socios2": 0, "Paises": 0, "Simples": 0, "Socios7": 0, "Empresas6": 0, "Estabelecimentos5": 0, "Socios6": 0, "Empresas1": 0, "Estabelecimentos0": 0, "Empresas7": 0}
-        request_url = urlopen('https://dadosabertos.rfb.gov.br/CNPJ/dados_abertos_cnpj/{}/'.format(mes))
+        request_url = urlopen('https://arquivos.receitafederal.gov.br/dados/cnpj/dados_abertos_cnpj/{}/'.format(mes))
         s = request_url.read().decode("utf-8")
         m = findall(r"(\w+).zip", s)
         m = list(set(m))
@@ -53,7 +53,7 @@ class CNPJ:
             try:
                 if self.files[str(mes)][file] == 0:
                     print(f"\nDownloading {file}.zip:")
-                    download('https://dadosabertos.rfb.gov.br/CNPJ/dados_abertos_cnpj/{}/{}.zip'.format(mes, file), out=f"./download_{mes}")
+                    download('https://arquivos.receitafederal.gov.br/dados/cnpj/dados_abertos_cnpj/{}/{}.zip'.format(mes, file), out=f"./download_{mes}")
                     print(f"\n[+] Unpacking {file}.zip")
                     with ZipFile(f"./download_{mes}/{file}.zip") as zip:
                         zip.extractall(f"./download_{mes}/"+file)
